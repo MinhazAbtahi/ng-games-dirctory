@@ -1,0 +1,53 @@
+<div class="detail-tabs">
+  <mat-tab-group mat-align-tabs="start" backgroundColor="primary">
+    <mat-tab label="About">
+      <p *ngIf="game.parent_platforms?.length" class="detail-tabs-par">
+        Platforms:
+        <span *ngFor="let game of game.parent_platforms; let last = last" >
+          {{ game.platform.name }} <span *ngIf="!last">, </span>
+        </span>
+      </p>
+      <p *ngIf="game.publishers?.length" class="detail-tabs-par">
+        Publisher:
+        <span *ngFor="let publisher of game.publishers; let last = last">
+          {{ publisher.name }} <span *ngIf="!last">, </span>
+        </span>
+      </p>
+      <p *ngIf="game.website" class="detail-tabs-par">
+        Website:
+        <a class="detail-tabs-link" href="{{ game.website }}" target="_blank">{{ game.website }}</a>
+      </p>
+      <div class="detail-description" [innerHTML]="game.description"></div>
+      <p class="detail-tabs-votes">
+        <ng-container *ngFor="let rating of game.ratings">
+        <span *ngIf="rating.title === 'exceptional'">
+          <mat-icon class="detail-votes-up">thumb_up</mat-icon>
+          <span class="detail-votes-count">{{ rating.count || 0 }}</span>
+        </span>
+        <span *ngIf="rating.title === 'skip'">
+          <mat-icon class="detail-votes-down">thumb_down</mat-icon>
+          <span class="detail-votes-count">{{ rating.count || 0 }}</span>
+        </span>
+      </ng-container>
+      </p>
+    </mat-tab>
+    <mat-tab label="Screenshots" *ngIf="game.screenshots?.length">
+      <img
+        class="detail-screenshot"
+        *ngFor="let screenshot of game.screenshots"
+        src="{{ screenshot.image }}"
+        alt="screenshot"
+      />
+    </mat-tab>
+    <mat-tab label="Trailers" *ngIf="game.trailers?.length">
+      <video
+        class="detail-trailer"
+        controls
+        *ngFor="let trailer of game.trailers"
+      >
+        <source src="{{ trailer.data?.max }}" type="video/mp4">
+        Your browser doesn't support the Video tag.
+      </video>
+    </mat-tab>
+  </mat-tab-group>
+</div>
